@@ -1,9 +1,5 @@
 This project contains C3PO (Collaborative Code Coupling PlatfOrm) sources.
 
-## Contact ##
-
- Cyril PATRICOT (cyril.patricot@cea.fr)
-
 ## Description ##
 
 It is composed of 3 folders:
@@ -27,7 +23,7 @@ C3PO's Doxygen documentation can be generated from **doc** directory using:
 ./makedoc.sh
 ```
 
-It can also be found here: https://salome-c3po.readthedocs.io/ .
+It can also be found here: https://test-doc-c3po.readthedocs.io/en/test-doc-git/ .
 
 ## Tests ##
 
