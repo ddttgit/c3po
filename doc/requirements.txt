@@ -1,1 +1,3 @@
-graphviz==0.21
+sphinx>=8.2.0
+graphviz
+sphinx-rtd-theme

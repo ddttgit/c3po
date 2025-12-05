@@ -4,8 +4,7 @@
 # You can set these variables from the command line, and also
 # from the environment for the first two.
 SPHINXOPTS    ?=
-SPHINXBUILD   = /home/c3po_tma/workspaces/workspace_di_51/TEST_DOC_DataAccessor_PhysicsDriver/virt-c3po-ub24/bin/sphinx-build
-#SPHINXBUILD   ?= sphinx-build
+SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
 TMPDIR        = tmp
@@ -20,8 +19,9 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@rm -r ${TMPDIR}
 
 .PHONY: clean
 
 clean:
-	@rm -r ${TMPDIR}
+	@rm -r ${BUILDDIR}

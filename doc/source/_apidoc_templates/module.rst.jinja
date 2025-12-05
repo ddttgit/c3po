@@ -1,8 +1,23 @@
+{#
+    COMMENT :
+    ---------
+    Création de l'entête d'un module de C3PO.
+#}
 {%- if show_headings %}
 {{- [basename, "module"] | join(' ') | e | heading }}
 
 {% endif -%}
+{#
+    COMMENT :
+    ---------
+    Exceptions faites sur les diagrammes UML de classe.
 
+    Le module `tracer` ne possède pas de classe. Aucun diagramme ne doit être généré pour ce module.
+
+    Les modules `NameChanger` et `checkScope` possèdent des meta-classes. Pour éviter les erreurs
+    lors de la création des diagrammes de classe, il faut restreindre la taille du diagramme avec
+    l'option `top-classes`.
+#}
 {%- if "c3po.services.tracer" != qualname and "c3po.services.wrapper" != qualname %}
 .. inheritance-diagram:: {{ qualname }}
 {%- if "c3po.services.NameChanger" == qualname or "c3po.raises.checkScope" == qualname %}
@@ -12,13 +27,34 @@
 {%- endif %}
    :parts: 1
 {%- endif %}
+{#
+    COMMENT :
+    ---------
+    Génère automatiquement la documentation du module `qualname`.
 
+    Les méthodes spéciales (encadrées par `__`) listées ci-dessous doivent être visibles dans la
+    documentation du module si elles existent.
+#}
 .. automodule:: {{ qualname }}
 {%- for option in automodule_options %}
    :{{ option }}:
 {%- endfor %}
    :special-members: __init__,__add__,__iadd__,__sub__,__isub__,__mul__,__imul__,__call__,__del__,__new__
+{#
+    COMMENT :
+    ---------
+    Cas particuliers : les substitutions
 
+    Si le module `qualname` rempli au moins une condition `if` parmis celles en dessous,
+    alors des substitutions seront écritent à la fin de son fichier `.rst`.
+
+    Syntaxe d'une substitution :
+
+    .. |<MA_SUBSTITUTION>| replace:: <EXPRESSION_A_REMPLACER_LORS_DE_LA_LECTURE>
+
+    Chaque occurence de |<MA_SUBSTITUTION>| dans une docstring du module `qualname` sera
+    remplacée par une expression lors de la génération de la documentation.
+#}
 {% if "c3po.PhysicsDriver" == qualname %}
 .. |PD_setMPIComm| replace:: :meth:`~PhysicsDriver.setMPIComm`
 .. |PD_setDataFile| replace:: :meth:`~PhysicsDriver.setDataFile`
