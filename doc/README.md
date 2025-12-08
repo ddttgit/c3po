@@ -1,11 +1,19 @@
-# Prérequis Python
+# Documentation de C3PO
 
-- c3po
-- graphviz
-- sphinx
-- sphinx-rtd-theme
+## TL;DR
 
-# Contenu du répertoire doc/
+Exécuter:
+
+```bash
+pip install -r ./requirements.txt
+make html
+```
+
+## Prérequis Python
+
+- les prérequis listés dans `requirements.txt`
+
+## Contenu du répertoire doc/
 
 Ce répertoire contient :
 
@@ -13,7 +21,7 @@ Ce répertoire contient :
 - requirements.txt
 - source/
 
-## Le fichier Makefile
+### Le fichier Makefile
 
 Permet de lancer la commande "make html" pour générer la documentation de C3PO.
 
@@ -29,11 +37,11 @@ ou
 rm -r build/
 ```
 
-## Le fichier requirements.txt
+### Le fichier requirements.txt
 
 Contient les versions des prérequis nécessaires pour générer les documentations C3PO et ReadTheDoc.
 
-## Le répertoire source/
+### Le répertoire source/
 
 Le répertoire "source/" contient :
 

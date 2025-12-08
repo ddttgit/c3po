@@ -15,15 +15,17 @@ import subprocess
 import shutil
 import re
 from pathlib import Path
+from typing import List, Tuple
 
 # -- Project requirements -----------------------------------------------------
 
 if sys.version_info[:2] < (3,11):
-    raise Exception("Only a Python version higher than 3.11 is allowed to generate C3PO documentation.")
+    raise RuntimeError(
+        "Only a Python version higher than 3.11 is allowed to generate C3PO documentation.")
 
 # -- Project tools ------------------------------------------------------------
 
-def scan(path, workdir):
+def scan(path: Path, workdir: Path) -> Tuple[List[Path], List[Path]]:
     """
     Parameters
     ----------
@@ -34,7 +36,7 @@ def scan(path, workdir):
 
     Returns
     -------
-    tuple(list[Path], list[Path])
+    Tuple[List[Path], List[Path]]
         Returns the tuple (list_py,list_dir), with:
         - list_py : A list of absolute paths of all the Python files that C3PO sources contain (in a
           list list_py).
@@ -101,7 +103,7 @@ for pyfile in list_py:
     # The new synthax corresponds to the one of .rst files created by the command "sphinx-apidoc".
     # Moves .rst file to the good location into the tree structure of the documentation.
     rst = relative_pathfile.with_suffix("")
-    rst = ".".join(str(rst).split("/"))
+    rst = ".".join(rst.parts)
     rst_ext = rst + ".rst"
     shutil.move(current_path / rst_ext, pathdir / rst_ext)
 
@@ -128,7 +130,7 @@ for d in list_dir:
     # Transforms the path synthax "<path>/<to>/<the>/<directory>" into "<path>.<to>.<the>.<directory>".
     # Moves .rst file to the good location into the tree structure of the documentation.
     rst = relative_pathfile.with_suffix("")
-    rst = ".".join(str(rst.with_suffix(".rst")).split("/"))
+    rst = ".".join(rst.with_suffix(".rst").parts)
     shutil.move(current_path / rst, pathdir / rst)
 
     if str(relative_pathfile) == "c3po":
@@ -139,14 +141,14 @@ for d in list_dir:
 # If not, adds the lines :
 # from <file_name> import <class1>, <class2>, ...
 alreadyload = []
-with open(str(sourceInit / "__init__.py"), "r") as file:
+with open((sourceInit / "__init__.py"), "r") as file:
     content = file.readlines()
     for line in content:
         splitline = line.split()
         if splitline and splitline[0] == 'from':
             alreadyload.append(splitline[1])
 
-with open(str(sourceInit / "__init__.py"), "a") as file:
+with open((sourceInit / "__init__.py"), "a") as file:
     for key in dict_class.keys():
         add = True
         for mod in alreadyload:
@@ -155,7 +157,7 @@ with open(str(sourceInit / "__init__.py"), "a") as file:
                 break
         if add:
             file.write('from {} import {}\n'.format(key, ", ".join(dict_class[key])))
-                    
+
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
@@ -181,7 +183,8 @@ intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
     'numpy': ('https://numpy.org/doc/stable/', None),
-    'mpi4py': ('https://mpi4py.readthedocs.io/en/stable/', None)
+    'mpi4py': ('https://mpi4py.readthedocs.io/en/stable/', None),
+    'icoco': ('https://icoco-python.readthedocs.io/en/latest/', None)
     }
 
 autodoc_mock_imports = ["CATHARE2SWIG", "CATHARE3SWIG", "Access", "FlicaICoCo",
